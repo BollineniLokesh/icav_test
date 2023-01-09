@@ -10,7 +10,8 @@ Clone the project Repository
 git clone {project_folder}
 Enter the project folder and create a virtual environment create a virtual environment
 
-$cd project_folder
+$change directory to git repository icav_test
+
 $python -m venv env 
 
 Activate the virtual environment
@@ -25,7 +26,7 @@ $ pip install -r requirements.txt
 
 Run the project in development
 
-$python /icav_tech_challenge/app.py
+$python icav_tech_challenge/app.py
 
 TO TEST THE SINGIN API
 http://0.0.0.0:5000/api/signin ---> POST METHOD
@@ -43,6 +44,6 @@ IN HEADERS NEED TO PARAMETER WITH VALUE LIKE rows  = '3' OR rows='' we need to p
 
 FOR TO TEST THE CODE COVERAGE OR RUN TESTS
 
-$pytest --cov icav_tech_challenge
+$pytest --cov 
 
 $coverage html
