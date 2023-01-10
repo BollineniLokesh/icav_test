@@ -33,7 +33,7 @@ http://0.0.0.0:5000/api/signin ---> POST METHOD
 
 IN Body we need to pass json request
 #Default_user
-user ={'user_name':'book_management@admin.com','password':'Welcome@123'}
+user ={'username':'book_management@admin.com','password':'Welcome@123'}
 
 TO  GET THE BOOKS INFO ---> GET METHOD
 http://127.0.0.1:5000/api/booksinfo
