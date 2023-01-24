@@ -47,3 +47,7 @@ FOR TO TEST THE CODE COVERAGE OR RUN TESTS
 $pytest --cov 
 
 $coverage html
+
+
+### For Frontend
+http://127.0.0.1:5000/web/index.html
