@@ -2,12 +2,12 @@
 from flask_restful import Api,Resource
 # from controllers.signin import Signin
 # from controllers.books import BooksINFO
-from flask import Flask,request
+from flask import Flask,request,render_template
 import os,re
 import pandas as pd
 import logging as info
 
-app=Flask(__name__)
+app=Flask(__name__,template_folder='templates',static_folder='static',static_url_path='',)
 
 
 # set up  info logging to file - see previous section for more details
@@ -52,6 +52,15 @@ class Logger():
         except Exception as e:
             print(e)
 
+@app.route('/')
+def home():
+   return render_template('web/index.html')
+
+from flask import send_from_directory
+
+@app.route('/web/<path:path>')
+def send_report(path):
+    return send_from_directory('web', path)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 user ={'user_name':'book_management@admin.com','password':'Welcome@123'}
@@ -106,6 +115,7 @@ class BooksINFO(Resource):
         try:
             rows = request.headers['rows']
             df = pd.read_csv(os.path.join(basedir,'books.csv'),header=0)
+            df = df.fillna(0)
             if rows!='':
                 df=df.head(int(rows))
             data=df.to_dict(orient='records')

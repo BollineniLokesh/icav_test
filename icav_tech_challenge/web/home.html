@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Managment</title>
+    <link href="./bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="./mustache.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <script>
+        if (!window.localStorage.getItem('LOGIN')) {
+            window.location.href = './index.html';
+        }
+    </script>
+
+    <nav class="navbar navbar-dark nav-bar-custom">
+        <div class="w-100 text-center">
+            <!-- Title -->
+            <span class="navbar-brand mb-0 h1">Book Managment</span>
+
+            <!-- Logout -->
+            <a class="float-right mt-1 ml-2" href="./index.html">
+                <button class="btn btn-primary btn-sm" onclick="logout()">Logout</button>
+            </a>
+            <a class="float-right mt-1" href="./home.html">
+                <button class="btn btn-primary btn-sm">Refresh</button>
+            </a>
+            
+        </div>
+    </nav>
+
+    <div id="login">
+        <div class="container-fluid">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="table-container" class="col-md-12 mt-5">
+                    <div class="text-center w-100">
+                        <button class="btn btn-dark btn-lg mt-5" onclick="askRecordsCount()">Click Here to Load
+                            Data</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var tableTemplate = '';
+        const apiUrl = 'http://127.0.0.1:5000/api/booksinfo'; // replace the url with actual api url
+
+        function logout() {
+            localStorage.removeItem('LOGIN');
+        }
+        function askRecordsCount() {
+            const rows = prompt("Please enter No.of records", "");
+            if (rows != null && !isNaN(rows)) {
+                loadData(rows);
+            }
+        }
+        async function loadData(rows) {
+            const booksData = await getApiData(rows);
+            console.log(booksData);
+            const content = Mustache.render(tableTemplate, booksData);
+            document.querySelector('#table-container').innerHTML = content;
+        }
+        async function getApiData(rows) {
+            const data = await fetch(apiUrl, { headers: { rows } }).then((res) => res.json());
+            return data;
+        }
+        (async () => {
+            tableTemplate = await fetch('./table-template.html').then((res) => res.text());
+        })();
+    </script>
+
+</body>
+
+</html>
